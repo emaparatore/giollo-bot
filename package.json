@@ -1,0 +1,51 @@
+{
+  "name": "armonia-assistente",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Assistente desktop locale per la guida dell’Accademia Musicale Armonia",
+  "author": "Armonia",
+  "main": "out/main/index.js",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "npm run typecheck && electron-vite build",
+    "test:desktop": "node scripts/desktop-smoke.mjs",
+    "test:packaged": "node scripts/packaged-smoke.mjs",
+    "dist:win": "npm run build && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "^42.0.0",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.0",
+    "playwright-core": "^1.56.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "vitest": "^5.0.5"
+  },
+  "overrides": { "@electron/get": "^5.1.0" },
+  "build": {
+    "appId": "it.armonia.assistente",
+    "productName": "Armonia Assistente",
+    "directories": { "output": "release" },
+    "files": ["out/**/*", "package.json"],
+    "extraResources": [
+      { "from": "DOCUMENTAZIONE_SCUOLA_MUSICA_ARMONIA.md", "to": "DOCUMENTAZIONE_SCUOLA_MUSICA_ARMONIA.md" }
+    ],
+    "asar": true,
+    "win": { "target": ["nsis"], "artifactName": "Armonia-Assistente-${version}-Setup.${ext}", "signAndEditExecutable": false },
+    "nsis": { "oneClick": false, "perMachine": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true }
+  }
+}
